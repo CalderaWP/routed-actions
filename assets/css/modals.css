@@ -259,6 +259,7 @@ input.disabled-input {
 
 .tab-detail-panel .baldrick-repeater-group hr{ clear: both;}
 .baldrick-modal-body.spinner {
+  visibility: visible;
   background-position: 12px 12px;
   min-height: 44px;
   display: block;

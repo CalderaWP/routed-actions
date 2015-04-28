@@ -46,6 +46,7 @@ h2.routedactions-h2 .dashicons {
 #loading-indicator.loading > .spinner {
   display: inline-block;
   float: none;
+  visibility: visible;
 }
 .routedactions-route-tool-error {
   border-left: 4px solid #cf2020;
