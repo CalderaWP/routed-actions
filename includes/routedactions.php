@@ -236,7 +236,6 @@ function routedactions_get_route_list() {
 	 * @since 1.1.0
 	 *
 	 * @param array $routes All routes
-
 	 */
 	return apply_filters( 'routedactions_get_routes', $routes );
 
