@@ -25,7 +25,10 @@ function routedactions_define_handle_route(){
 	global $wp_query;
 
 	if( !empty( $wp_query->query['callback_route_action'] ) ){
-		$route = get_option( $wp_query->query['callback_route_action'] );
+		$route = strip_tags( $wp_query->query['callback_route_action'] );
+		$route = routedactions_get_route( $route );
+		$args = array();
+
 		if(!empty($route['route_action'])){
 
 			if(!empty($route['route_args'])){
@@ -70,7 +73,7 @@ function routedactions_enqueue_admin_stylescripts(){
 	$screen = get_current_screen();
 
 	if( in_array( $screen->base, array('post') ) ){
-		$routes = get_option( 'CRA_ROUTES' );
+		$routes = routedactions_get_route_list();
 		foreach($routes as $route){
 			if(empty($route['state'])){
 				continue;
@@ -163,12 +166,20 @@ function routedactions_build_admin_page(){
 }
 
 
-// helper function to get active routes of a specific type
+/**
+ * Get all routes or all routes by type (transfer method)
+ *
+ * @since 1.0.0
+ *
+ * @param null|string $type
+ *
+ * @return array
+ */
 function routedactions_get_active_routes($type = null){
 
-	$routes = get_option( 'CRA_ROUTES' );
+	$routes = routedactions_get_route_list();
 	$returns = array();
-	foreach( (array) $routes as $route_id=>$route_def){
+	foreach( (array) $routes as $route_id => $route_def){
 
 		if( !empty($route_def['state']) ){
 			if(!empty($type)){
@@ -176,14 +187,60 @@ function routedactions_get_active_routes($type = null){
 					continue;
 				}
 			}
-			$returns[$route_id] = get_option( $route_id );
+
+			$returns[$route_id] = routedactions_get_route( $route_id );
 		}
 	}
 
 	return $returns;
 }
 
+/**
+ * Get an individual route.
+ *
+ * @since 1.1.0
+ *
+ * @param $route_id
+ *
+ * @return bool|array The route definition or false if not found.
+ */
+function routedactions_get_route( $route_id ) {
 
+	$route = get_option( $route_id, false );
+
+	/**
+	 * Filter a route before returning it.
+	 *
+	 * @since 1.1.0
+	 *
+	 * @param bool|array The routes settings, or false if not found.
+	 * @param string $route_id The ID of the route.
+	 */
+	return apply_filters( 'routedactions_get_route', $route, $route_id );
+
+}
+
+/**
+ * Get all saved routes
+ *
+ * @since 1.1.0
+ *
+ * @return array The list of saved routes
+ */
+function routedactions_get_route_list() {
+	$routes = get_option( 'CRA_ROUTES', array() );
+
+	/**
+	 * Filter a route before returning it.
+	 *
+	 * @since 1.1.0
+	 *
+	 * @param array $routes All routes
+
+	 */
+	return apply_filters( 'routedactions_get_routes', $routes );
+
+}
 
 
 

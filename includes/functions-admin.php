@@ -13,7 +13,7 @@ function routedactions_load_projects(){
 
 	$routes_types = apply_filters( "routedactions_get_route_types", array() );
 
-	$routes = get_option( 'CRA_ROUTES' );
+	$routes = routedactions_get_route_list();
 
 
 	if( empty( $routes ) ){
@@ -93,7 +93,7 @@ function routedactions_load_projects(){
 add_action( "wp_ajax_route_delete_route", "routedactions_delete_route" );
 function routedactions_delete_route(){
 
-	$routes = get_option( 'CRA_ROUTES' );
+	$routes = routedactions_get_route_list();
 	if(isset($routes[$_POST['route']])){
 		unset($routes[$_POST['route']]);
 		delete_option( $routes[$_POST['route']] );
@@ -135,7 +135,7 @@ function routedactions_create_route(){
 	$new_route = apply_filters( 'routedactions_create_route', $new_route);
 	$new_route = apply_filters( 'routedactions_create_route-'.$_POST['route'], $new_route);
 	// register new route
-	$routes = get_option('CRA_ROUTES');
+	$routes = routedactions_get_route_list();
 	if(empty($routes)){
 		$routes = array();
 	}
@@ -153,7 +153,7 @@ function routedactions_create_route(){
 // activate an route
 add_action( "wp_ajax_route_activate_route", "routedactions_activate_route" );
 function routedactions_activate_route(){
-	$routes = get_option( 'CRA_ROUTES' );
+	$routes = routedactions_get_route_list();
 	if(empty($routes[$_POST['route']])){
 		wp_send_json( array('message'=>'error, invalid route') );
 	}
@@ -184,7 +184,7 @@ function routedactions_activate_route(){
 add_action( "wp_ajax_route_route_handler", "routedactions_route_handler" );
 function routedactions_route_handler(){
 
-	$routes = get_option( 'CRA_ROUTES' );
+	$routes = routedactions_get_route_list();
 	if(empty($routes[$_POST['id']])){
 		wp_send_json( array('message'=>'error, invalid route') );
 	}

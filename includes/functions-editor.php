@@ -35,9 +35,9 @@ add_action( "wp_ajax_route_load_route", "routedactions_load_route" );
 function routedactions_load_route($id = null){
 	
 	if(!empty($id)){
-		$route = get_option( $id );
+		$route = routedactions_get_route( $id );
 	}else{
-		$route = get_option( $_POST['route'] );	
+		$route = routedactions_get_route( strip_tags( $_POST['route'] ) );
 	}
 	
 	$routes_types = apply_filters( "routedactions_get_route_types", array() );
