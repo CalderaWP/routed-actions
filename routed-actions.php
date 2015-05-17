@@ -4,7 +4,7 @@
   Plugin URI: http://digilab.co.za
   Description: Create a url to route to a defined action.
   Author: David Cramer
-  Version: 1.0.0
+  Version: 1.1.0
   Author URI: http://digilab.co.za
  */
 
@@ -18,7 +18,7 @@ if ( ! defined( 'WPINC' ) ) {
 define('RACTIONS_PATH', plugin_dir_path(__FILE__));
 define('RACTIONS_URL', plugin_dir_url(__FILE__));
 define('RACTIONS_ICON', 'dashicons-arrow-right');
-define('RACTIONS_VER', '1.0.0');
+define('RACTIONS_VER', '1.1.0');
 
 
 include_once RACTIONS_PATH . 'includes/routedactions.php';
